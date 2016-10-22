@@ -34,7 +34,6 @@ private:
     bool isDone;
     vector <vector <double>> C;
     
-    
 };
 
 

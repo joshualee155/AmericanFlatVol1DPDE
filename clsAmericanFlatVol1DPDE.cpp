@@ -11,7 +11,7 @@
 #include <cmath>
 
 double max(double, double);
-vector<double> triSolver(double, double, double, vector<double>);
+vector<double> triSolver(double, double, double, const vector<double> &);
 
 clsAmericanFlatVol1DPDE::clsAmericanFlatVol1DPDE(double _S, double _K, double _r, double _T, double _sig, double _div, bool _isCall, int _nsteps, int _tsteps, double _theta, int _nStdev):
 S0(_S), K(_K), T(_T), r(_r), vol(_sig), div(_div), isCall(_isCall), Ssteps(_nsteps), Tsteps(_tsteps), theta(_theta), nStdev(_nStdev)
@@ -25,7 +25,13 @@ S0(_S), K(_K), T(_T), r(_r), vol(_sig), div(_div), isCall(_isCall), Ssteps(_nste
 }
 
 clsAmericanFlatVol1DPDE::~clsAmericanFlatVol1DPDE()
-{}
+{
+    for (int i = 0; i < Tsteps+1; ++i )
+    {
+        C[i].resize(0);
+    }
+    C.resize(0);
+}
 
 void clsAmericanFlatVol1DPDE::run()
 {
@@ -98,9 +104,10 @@ double max(double a, double b)
     return (a>b) ? a : b;
 }
 
-vector<double> triSolver(double b, double a, double c, vector<double> y)
+vector<double> triSolver(double b, double a, double c, const vector<double> & y_)
 {
-    int M = static_cast<int>(y.size()-2);
+    int M = static_cast<int>(y_.size()-2);
+    vector<double> y(y_);
     vector<double> Sol(M), c_vec(M-1);
     c_vec[0] = c/b;
     y[1] /= b;
