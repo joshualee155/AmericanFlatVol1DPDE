@@ -117,8 +117,8 @@ vector<double> triSolver(double b, double a, double c, const vector<double> & y_
         y[i+1] = (y[i+1] - a*y[i])/(b - a*c_vec[i-1]);
     }
     y[M] = (y[M] - a*y[M-1])/(b - a*c_vec[M-2]);
-    Sol[M] = y[M];
-    for (int i = M-1; i >= 0; --i)
+    Sol[M-1] = y[M];
+    for (int i = M-2; i >= 0; --i)
     {
         Sol[i] = y[i+1]-c_vec[i]*Sol[i+1];
     }
